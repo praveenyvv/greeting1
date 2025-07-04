@@ -1,158 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday Ammulu 🎂🌻</title>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Pacifico', cursive;
-      background: #fff8dc;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background 1s ease;
-    }
-    #login, #intro, #greeting {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-    #login {
-      display: flex;
-    }
-    input {
-      padding: 10px;
-      margin: 10px;
-      border: 2px solid #ffcccb;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      background: #f9c74f;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #f9844a;
-      color: white;
-    }
-    .lips-emoji {
-      font-size: 2rem;
-      animation: zoomIn 2s forwards;
-      opacity: 0;
-    }
-    @keyframes zoomIn {
-      from {
-        transform: scale(0);
-        opacity: 0;
-      }
-      to {
-        transform: scale(10);
-        opacity: 1;
-      }
-    }
-    .sunflower {
-      position: absolute;
-      width: 50px;
-      animation: float 20s linear infinite;
-    }
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-    #message {
-      font-size: 1.5rem;
-      color: #444;
-      max-width: 90%;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
-    @media(max-width:600px){
-      .lips-emoji {
-        font-size: 1.5rem;
-      }
-      #message {
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Birthday Ammulu 🎂🌻</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Pacifico', cursive;
+  background: #fff8dc;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#login, #puzzle, #greeting {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+#login {
+  display: flex;
+}
+input {
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid #ffcccb;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #f9c74f;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #f9844a;
+  color: white;
+}
+#puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(3,100px);
+  grid-template-rows: repeat(2,100px);
+  gap: 2px;
+}
+.piece {
+  width: 100px;
+  height: 100px;
+  background-size: 300px 200px;
+  border: 1px solid #ccc;
+  cursor: grab;
+}
+#message {
+  font-size: 1.5rem;
+  color: #444;
+  max-width: 90%;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+@media(max-width:600px){
+  #message {
+    font-size: 1.2rem;
+  }
+  #puzzle-board {
+    transform: scale(0.8);
+  }
+}
+</style>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div id="login">
-    <h2>💛 Birthday Login 💛</h2>
-    <input id="username" placeholder="Enter your name"/>
-    <input id="password" type="password" placeholder="Password"/>
-    <button onclick="checkLogin()">Open Surprise ✨</button>
+<!-- Login Screen -->
+<div id="login">
+  <h2>💛 Birthday Login 💛</h2>
+  <input id="username" placeholder="Enter your name"/>
+  <input id="password" type="password" placeholder="Password"/>
+  <button onclick="checkLogin()">Unlock Puzzle 🧩</button>
+</div>
+
+<!-- Puzzle Screen -->
+<div id="puzzle">
+  <h2>Solve the Sunflower Puzzle 🌻</h2>
+  <div id="puzzle-board"></div>
+</div>
+
+<!-- Greeting Message -->
+<div id="greeting">
+  <div id="message">
+    🎂💖 Happy Birthday to <b>Amulya Sri Tatikonda</b> 💖🎂<br/><br/>
+    My bujji pandi 🧸, bujjamma 🥺, ammulu 🌼, ammu 🌸, picchiii 🤪<br/><br/>
+    I hope you have a lot of surprises waiting for you 🎁✨<br/><br/>
+    From your bujji sunflower 🌻🌻
   </div>
+</div>
 
-  <!-- Lips Intro -->
-  <div id="intro">
-    <div class="lips-emoji">💋</div>
-  </div>
+<script>
+// Sunflower image URL
+const imgURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/300px-Sunflower_sky_backdrop.jpg";
+const correctOrder = ["0","1","2","3","4","5"];
+let currentOrder = [];
 
-  <!-- Greeting Message -->
-  <div id="greeting">
-    <div id="message">
-      🎂💖 Happy Birthday to <b>Amulya Sri Tatikonda</b> 💖🎂<br/><br/>
-      My bujji pandi 🧸, bujjamma 🥺, ammulu 🌼, ammu 🌸, picchiii 🤪<br/><br/>
-      I hope you have a lot of surprises waiting for you 🎁✨<br/><br/>
-      From your bujji sunflower 🌻🌻
-    </div>
-  </div>
+function checkLogin(){
+  const u = document.getElementById('username').value.trim().toLowerCase();
+  const p = document.getElementById('password').value.trim();
+  if(u==="amulya" && p==="vvpp"){
+    document.getElementById('login').style.display="none";
+    document.getElementById('puzzle').style.display="flex";
+    createPuzzle();
+  } else {
+    alert("Wrong credentials, try again!");
+  }
+}
 
-  <script>
-    function checkLogin(){
-      const u = document.getElementById('username').value.trim().toLowerCase();
-      const p = document.getElementById('password').value.trim();
-      if(u==="amulya" && p==="vvpp"){
-        document.getElementById('login').style.display="none";
-        document.getElementById('intro').style.display="flex";
-        setTimeout(()=>{
-          document.getElementById('intro').style.display="none";
-          document.body.style.background="#ffeaa7";
-          document.getElementById('greeting').style.display="flex";
-          createSunflowers();
-        },2500);
-      } else {
-        alert("Wrong credentials, try again!");
-      }
-    }
+function createPuzzle(){
+  const board = document.getElementById('puzzle-board');
+  board.innerHTML = "";
+  currentOrder = [...correctOrder].sort(()=>Math.random()-0.5);
+  currentOrder.forEach((pos,i)=>{
+    const div = document.createElement('div');
+    div.className = 'piece';
+    div.draggable = true;
+    div.dataset.index = pos;
+    const x = pos % 3;
+    const y = Math.floor(pos/3);
+    div.style.backgroundImage = `url(${imgURL})`;
+    div.style.backgroundPosition = `-${x*100}px -${y*100}px`;
+    div.addEventListener('dragstart', dragStart);
+    div.addEventListener('dragover', dragOver);
+    div.addEventListener('drop', dropped);
+    board.appendChild(div);
+  });
+}
 
-    function createSunflowers(){
-      for(let i=0; i<20; i++){
-        const img = document.createElement('img');
-        img.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/120px-Sunflower_sky_backdrop.jpg";
-        img.className = "sunflower";
-        img.style.left = Math.random()*100 + "vw";
-        img.style.animationDuration = 10 + Math.random()*20 + "s";
-        document.body.appendChild(img);
-      }
-    }
-  </script>
+let dragSrc;
+
+function dragStart(e){
+  dragSrc = this;
+}
+
+function dragOver(e){
+  e.preventDefault();
+}
+
+function dropped(e){
+  if(dragSrc === this) return;
+  const board = document.getElementById('puzzle-board');
+  const children = Array.from(board.children);
+  const idx1 = children.indexOf(dragSrc);
+  const idx2 = children.indexOf(this);
+
+  board.insertBefore(dragSrc, idx2 > idx1 ? this.nextSibling : this);
+  checkSolved();
+}
+
+function checkSolved(){
+  const board = document.getElementById('puzzle-board');
+  const children = Array.from(board.children);
+  const order = children.map(c=>c.dataset.index);
+  if(order.join() === correctOrder.join()){
+    setTimeout(()=>{
+      document.getElementById('puzzle').style.display="none";
+      document.body.style.background="#ffeaa7";
+      document.getElementById('greeting').style.display="flex";
+    },500);
+  }
+}
+</script>
 </body>
 </html>
