@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Ammulu 🎂🌻</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Pacifico', cursive;
+      background: #fff8dc;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 1s ease;
+    }
+    #login, #intro, #greeting {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+    #login {
+      display: flex;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      border: 2px solid #ffcccb;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #f9c74f;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #f9844a;
+      color: white;
+    }
+    .lips-emoji {
+      font-size: 2rem;
+      animation: zoomIn 2s forwards;
+      opacity: 0;
+    }
+    @keyframes zoomIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(10);
+        opacity: 1;
+      }
+    }
+    .sunflower {
+      position: absolute;
+      width: 50px;
+      animation: float 20s linear infinite;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    #message {
+      font-size: 1.5rem;
+      color: #444;
+      max-width: 90%;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    @media(max-width:600px){
+      .lips-emoji {
+        font-size: 1.5rem;
+      }
+      #message {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login">
+    <h2>💛 Birthday Login 💛</h2>
+    <input id="username" placeholder="Enter your name"/>
+    <input id="password" type="password" placeholder="Password"/>
+    <button onclick="checkLogin()">Open Surprise ✨</button>
+  </div>
+
+  <!-- Lips Intro -->
+  <div id="intro">
+    <div class="lips-emoji">💋</div>
+  </div>
+
+  <!-- Greeting Message -->
+  <div id="greeting">
+    <div id="message">
+      🎂💖 Happy Birthday to <b>Amulya Sri Tatikonda</b> 💖🎂<br/><br/>
+      My bujji pandi 🧸, bujjamma 🥺, ammulu 🌼, ammu 🌸, picchiii 🤪<br/><br/>
+      I hope you have a lot of surprises waiting for you 🎁✨<br/><br/>
+      From your bujji sunflower 🌻🌻
+    </div>
+  </div>
+
+  <script>
+    function checkLogin(){
+      const u = document.getElementById('username').value.trim().toLowerCase();
+      const p = document.getElementById('password').value.trim();
+      if(u==="amulya" && p==="vvpp"){
+        document.getElementById('login').style.display="none";
+        document.getElementById('intro').style.display="flex";
+        setTimeout(()=>{
+          document.getElementById('intro').style.display="none";
+          document.body.style.background="#ffeaa7";
+          document.getElementById('greeting').style.display="flex";
+          createSunflowers();
+        },2500);
+      } else {
+        alert("Wrong credentials, try again!");
+      }
+    }
+
+    function createSunflowers(){
+      for(let i=0; i<20; i++){
+        const img = document.createElement('img');
+        img.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/120px-Sunflower_sky_backdrop.jpg";
+        img.className = "sunflower";
+        img.style.left = Math.random()*100 + "vw";
+        img.style.animationDuration = 10 + Math.random()*20 + "s";
+        document.body.appendChild(img);
+      }
+    }
+  </script>
+</body>
+</html>
