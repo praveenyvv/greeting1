@@ -11,13 +11,22 @@ html, body {
   padding: 0;
   height: 100%;
   font-family: 'Pacifico', cursive;
-  background: #fff8dc;
+  background: linear-gradient(-45deg, #fff8dc, #ffe4e1, #fff8dc, #ffe4e1);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+
+@keyframes gradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
 #login, #puzzle, #greeting {
   display: none;
   flex-direction: column;
@@ -25,9 +34,11 @@ html, body {
   text-align: center;
   padding: 20px;
 }
+
 #login {
   display: flex;
 }
+
 input {
   padding: 10px;
   margin: 10px;
@@ -35,6 +46,7 @@ input {
   border-radius: 10px;
   font-size: 1rem;
 }
+
 button {
   padding: 10px 20px;
   border: none;
@@ -44,16 +56,19 @@ button {
   font-size: 1rem;
   transition: background 0.3s;
 }
+
 button:hover {
   background: #f9844a;
   color: white;
 }
+
 #puzzle-board {
   display: grid;
   grid-template-columns: repeat(3,100px);
   grid-template-rows: repeat(2,100px);
   gap: 2px;
 }
+
 .piece {
   width: 100px;
   height: 100px;
@@ -61,18 +76,39 @@ button:hover {
   border: 1px solid #ccc;
   cursor: grab;
 }
+
 #message {
-  font-size: 1.5rem;
-  color: #444;
-  max-width: 90%;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  font-size: 1.6rem;
+  color: #333;
+  max-width: 95%;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+  animation: fadeIn 2s ease;
+  position: relative;
 }
+
+#message span.emoji {
+  display: inline-block;
+  animation: floatEmoji 3s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+@keyframes floatEmoji {
+  0% {transform: translateY(0);}
+  50% {transform: translateY(-8px);}
+  100% {transform: translateY(0);}
+}
+
 @media(max-width:600px){
   #message {
     font-size: 1.2rem;
+    padding: 20px;
   }
   #puzzle-board {
     transform: scale(0.8);
@@ -97,11 +133,13 @@ button:hover {
 
 <!-- Greeting Message -->
 <div id="greeting">
+  <audio id="bg-music" src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3" loop></audio>
+  <canvas id="confetti-canvas"></canvas>
   <div id="message">
-    🎂💖 Happy Birthday to <b>Amulya Sri Tatikonda</b> 💖🎂<br/><br/>
-    My bujji pandi 🧸, bujjamma 🥺, ammulu 🌼, ammu 🌸, picchiii 🤪<br/><br/>
-    I hope you have a lot of surprises waiting for you 🎁✨<br/><br/>
-    From your bujji sunflower 🌻🌻
+    <span class="emoji">🎂</span><span class="emoji">💖</span> Happy Birthday to <b>Amulya Sri Tatikonda</b> <span class="emoji">💖</span><span class="emoji">🎂</span><br/><br/>
+    My bujji pandi <span class="emoji">🧸</span>, bujjamma <span class="emoji">🥺</span>, ammulu <span class="emoji">🌼</span>, ammu <span class="emoji">🌸</span>, picchiii <span class="emoji">🤪</span><br/><br/>
+    I hope you have a lot of surprises waiting for you <span class="emoji">🎁</span><span class="emoji">✨</span><br/><br/>
+    From your bujji sunflower <span class="emoji">🌻</span><span class="emoji">🌻</span>
   </div>
 </div>
 
@@ -127,7 +165,7 @@ function createPuzzle(){
   const board = document.getElementById('puzzle-board');
   board.innerHTML = "";
   currentOrder = [...correctOrder].sort(()=>Math.random()-0.5);
-  currentOrder.forEach((pos,i)=>{
+  currentOrder.forEach((pos)=>{
     const div = document.createElement('div');
     div.className = 'piece';
     div.draggable = true;
@@ -159,7 +197,6 @@ function dropped(e){
   const children = Array.from(board.children);
   const idx1 = children.indexOf(dragSrc);
   const idx2 = children.indexOf(this);
-
   board.insertBefore(dragSrc, idx2 > idx1 ? this.nextSibling : this);
   checkSolved();
 }
@@ -171,10 +208,48 @@ function checkSolved(){
   if(order.join() === correctOrder.join()){
     setTimeout(()=>{
       document.getElementById('puzzle').style.display="none";
-      document.body.style.background="#ffeaa7";
       document.getElementById('greeting').style.display="flex";
+      document.getElementById('bg-music').play();
+      startConfetti();
     },500);
   }
+}
+
+// Confetti
+const confettiCanvas = document.getElementById('confetti-canvas');
+const ctx = confettiCanvas.getContext('2d');
+confettiCanvas.width = window.innerWidth;
+confettiCanvas.height = window.innerHeight;
+const confetti = [];
+
+function startConfetti(){
+  for(let i=0;i<150;i++){
+    confetti.push({
+      x: Math.random()*confettiCanvas.width,
+      y: Math.random()*confettiCanvas.height,
+      r: Math.random()*6+4,
+      d: Math.random()*40+10,
+      color: `hsl(${Math.random()*360},70%,60%)`,
+      tilt: Math.random()*10-10
+    });
+  }
+  animateConfetti();
+}
+
+function animateConfetti(){
+  ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+  confetti.forEach(c=>{
+    ctx.beginPath();
+    ctx.fillStyle = c.color;
+    ctx.fillRect(c.x,c.y,c.r,c.r);
+    c.y += Math.cos(c.d/10)+2;
+    c.x += Math.sin(c.d/10);
+    if(c.y > confettiCanvas.height){
+      c.y = -10;
+      c.x = Math.random()*confettiCanvas.width;
+    }
+  });
+  requestAnimationFrame(animateConfetti);
 }
 </script>
 </body>
